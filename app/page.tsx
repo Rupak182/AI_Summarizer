@@ -33,7 +33,7 @@ export default async function LandingPage() {
               <Button>Sign Up</Button>
             </Link>
             </>:
-           <div>
+           <div className="flex gap-2">
               <form action={signOut}>
              <Button
                variant="ghost"
@@ -44,8 +44,8 @@ export default async function LandingPage() {
                Logout
              </Button>
              </form>
-             <Link href="/login">
-               <Button variant="ghost">Login</Button>
+             <Link href="/dashboard">
+               <Button >Dashboard</Button>
              </Link>
            </div>
              
