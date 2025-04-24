@@ -33,7 +33,8 @@ export default async function LandingPage() {
               <Button>Sign Up</Button>
             </Link>
             </>:
-             <form action={signOut}>
+           <div>
+              <form action={signOut}>
              <Button
                variant="ghost"
                className="w-full justify-start gap-3 text-red-500 hover:text-red-600 hover:bg-red-50"
@@ -43,6 +44,11 @@ export default async function LandingPage() {
                Logout
              </Button>
              </form>
+             <Link href="/login">
+               <Button variant="ghost">Login</Button>
+             </Link>
+           </div>
+             
             }
           </div>
         </div>
