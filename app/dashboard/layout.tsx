@@ -68,13 +68,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               ))}
             </nav>
             <div className="p-4 border-t">
-              <Button
-                variant="ghost"
-                className="w-full justify-start gap-3 text-red-500 hover:text-red-600 hover:bg-red-50"
-              >
-                <LogOut className="h-5 w-5" />
-                Logout
-              </Button>
+            <form action={signOut}>
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-3 text-red-500 hover:text-red-600 hover:bg-red-50"
+            type="submit"
+          >
+            <LogOut className="h-5 w-5" />
+            Logout
+          </Button>
+        </form>
             </div>
           </div>
         </SheetContent>

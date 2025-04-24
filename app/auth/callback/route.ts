@@ -14,14 +14,27 @@ export async function GET(request: Request) {
     if (!error) {
       const forwardedHost = request.headers.get('x-forwarded-host') // original origin before load balancer
       const isLocalEnv = process.env.NODE_ENV === 'development'
-      if (isLocalEnv) {
-        // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
-        return NextResponse.redirect(`${origin}${next}`)
-      } else if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${next}`)
-      } else {
-        return NextResponse.redirect(`${origin}${next}`)
+      let redirectUrl = `${origin}${next}`; // Default to origin
+
+      if (!isLocalEnv) {
+        // In production, prioritize HTTPS and forwarded host
+        if (forwardedHost) {
+          redirectUrl = `https://${forwardedHost}${next}`;
+        } else {
+          // If no forwarded host, ensure HTTPS and use origin's host
+          try {
+            const originUrl = new URL(origin);
+            redirectUrl = `https://${originUrl.host}${next}`;
+          } catch (e) {
+            console.error("Failed to parse origin URL:", e);
+            // Fallback to origin if parsing fails, though this might still be http://localhost
+            redirectUrl = `${origin}${next}`;
+          }
+        }
       }
+      // In development, use the original origin (http://localhost)
+      // In production, use the constructed secure redirectUrl
+      return NextResponse.redirect(redirectUrl);
     }
   }
 
