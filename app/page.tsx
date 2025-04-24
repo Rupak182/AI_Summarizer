@@ -1,8 +1,20 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, LogOut } from "lucide-react"
+import { createClient } from "@/utils/supabase/server"
+import { redirect } from "next/navigation"
+import { signOut } from "./dashboard/action"
 
-export default function LandingPage() {
+
+export default async function LandingPage() {
+
+
+  const supabase = await createClient ()
+  const { data: userData, error: userError } = await supabase.auth.getUser()
+  if (userError || !userData?.user) {
+    redirect('/login')
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="border-b border-border">
@@ -11,12 +23,27 @@ export default function LandingPage() {
             <span className="text-xl font-bold text-primary">NoteSummarizer</span>
           </div>
           <div className="flex items-center gap-4">
+            {
+              !userData.user.id?
+              <>
             <Link href="/login">
               <Button variant="ghost">Login</Button>
             </Link>
             <Link href="/register">
               <Button>Sign Up</Button>
             </Link>
+            </>:
+             <form action={signOut}>
+             <Button
+               variant="ghost"
+               className="w-full justify-start gap-3 text-red-500 hover:text-red-600 hover:bg-red-50"
+               type="submit"
+             >
+               <LogOut className="h-5 w-5" />
+               Logout
+             </Button>
+             </form>
+            }
           </div>
         </div>
       </header>

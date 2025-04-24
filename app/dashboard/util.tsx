@@ -1,35 +1,32 @@
-import { createClient } from '@/utils/supabase/server'
+"use client";
 
+import { useQuery } from '@tanstack/react-query';
+import { fetchUserSummaries } from './data'; // Import the client-side fetch function
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { FileText, Upload } from "lucide-react"
-import { redirect } from 'next/navigation'
 import { format } from 'date-fns'; // Import date-fns for date formatting
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-export default async function DashboardPage() {
-  const supabase = await createClient()
-  const { data: userData, error: userError } = await supabase.auth.getUser()
-  if (userError || !userData?.user) {
-    redirect('/login')
+export default function DashboardPage() {
+  const { data: summaries, isLoading, isError, error } = useQuery({
+    queryKey: ['userSummaries'],
+    queryFn: fetchUserSummaries,
+  });
+
+  if (isLoading) {
+    return (
+      <div>
+        <p>Loading summaries...</p>
+      </div>
+    );
   }
-  console.log("user",userData)
 
-  const userId = userData.user.id;
-
-  // Fetch summaries for the authenticated user
-  const { data: summaries, error: summariesError } = await supabase
-    .from('summary')
-    .select('id, text, created_at') // Select id, text, and created_at
-    .eq('user_id', userId) // Filter by the authenticated user's ID
-    .order('created_at', { ascending: false }); // Order by creation date
-
-  if (summariesError) {
-    console.error("Error fetching summaries:", summariesError);
-    // Optionally display an error message to the user
+  if (isError) {
+    console.error("Error fetching summaries:", error);
     return (
       <div>
         <p>Error loading summaries.</p>
@@ -37,9 +34,15 @@ export default async function DashboardPage() {
     );
   }
 
-  
-
-  console.log("summary-data",summaries)
+  // Handle the case where fetchUserSummaries returns null (user not logged in)
+  if (!summaries) {
+     return (
+      <div>
+        <p>Please log in to view your summaries.</p>
+        {/* Optionally add a login link or redirect */}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -50,16 +53,16 @@ export default async function DashboardPage() {
             <CardDescription>Your summarization activity</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{summaries?.length || 0}</div> {/* Display total summaries */}
+            <div className="text-3xl font-bold">{summaries.length || 0}</div> {/* Display total summaries */}
           </CardContent>
         </Card>
-       
-       
+
+
       </div>
 
       <div>
         <h2 className="text-2xl font-bold mb-4">Your Summaries</h2>
-        {summaries && summaries.length > 0 ? (
+        {summaries.length > 0 ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"> {/* Use grid for cards */}
             {summaries.map((summary) => (
               <Link key={summary.id} href={`/dashboard/summaries/${summary.id}`}> {/* Link to dynamic route */}
@@ -70,7 +73,8 @@ export default async function DashboardPage() {
                   <CardContent className="flex-grow"> {/* Allow content to grow */}
                      <div className="rounded-lg border bg-card p-4 prose max-w-none">
                                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                      {summary.text.substring(0, 200) + (summary.text.length > 200 ? '...' : '')} 
+                                      {summary.text.substring(0, 200)}
+                                      {/* fix for exactly 200 */}
                                     </ReactMarkdown>
                                   </div>
                   </CardContent>

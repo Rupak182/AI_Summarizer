@@ -100,7 +100,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           ))}
         </nav>
         <div className="p-4 border-t">
-        <form action={signOut} method="post">
+        <form action={signOut}>
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 text-red-500 hover:text-red-600 hover:bg-red-50"
