@@ -102,7 +102,7 @@ export default function SummarizePage() {
         console.error("Error getting user session:", userError);
         // Optionally show a toast or set an error state for the user
       } else if (generatedSummary) {
-        const { data: insertData, error: insertError } = await supabase.from('summary').insert([{ user_id: userData.session.user.id, text: generatedSummary }]);
+        const { data: insertData, error: insertError } = await supabase.from('summary').insert([{ user_id: userData.session.user.id, text: cleanMarkdown(generatedSummary) }]);
         if (insertError) {
           console.error("Error saving summary to Supabase:", insertError);
         } else {
