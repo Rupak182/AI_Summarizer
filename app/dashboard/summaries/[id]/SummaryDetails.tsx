@@ -41,6 +41,15 @@ export default function SummaryDetails({ summaryId, summaryText, createdAt }: Su
     });
   };
 
+  function cleanMarkdown(md: string) {
+    // Remove all triple backtick code fences (with optional language)
+    md = md.replace(/^```[\w]*\n?/gm, "");
+    md = md.replace(/```$/gm, "");
+    // Remove leading 4 spaces (which also triggers code blocks in markdown)
+    md = md.replace(/^( {4}|\t)/gm, "");
+    return md.trim();
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -90,7 +99,7 @@ export default function SummaryDetails({ summaryId, summaryText, createdAt }: Su
         ) : (
           <div className="rounded-lg border bg-card p-4 prose max-w-screen-xl ">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {displayedSummaryText}
+              {cleanMarkdown(displayedSummaryText)}
             </ReactMarkdown>
           </div>
         )}

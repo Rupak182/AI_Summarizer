@@ -127,13 +127,13 @@ export default function SummarizePage() {
   }
 
   function cleanMarkdown(md: string) {
-    // Remove triple backticks and optional language (e.g., ```mdx)
-    md = md.replace(/```[\w]*\n?/g, "");
-    // Remove trailing triple backticks if present
-    md = md.replace(/```$/, "");
+    // Remove all triple backtick code fences (with optional language)
+    md = md.replace(/^```[\w]*\n?/gm, "");
+    md = md.replace(/```$/gm, "");
+    // Remove ALL leading whitespace from every line
+    md = md.replace(/^\s+/gm, "");
     return md.trim();
   }
-
   return (
     <div className="w-full mx-auto">
       <Card>
