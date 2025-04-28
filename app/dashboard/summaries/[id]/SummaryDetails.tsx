@@ -88,7 +88,7 @@ export default function SummaryDetails({ summaryId, summaryText, createdAt }: Su
             disabled={pending}
           />
         ) : (
-          <div className="rounded-lg border bg-card p-4 prose max-w-none">
+          <div className="rounded-lg border bg-card p-4 prose max-w-screen-xl ">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {displayedSummaryText}
             </ReactMarkdown>

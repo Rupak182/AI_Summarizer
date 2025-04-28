@@ -178,7 +178,7 @@ export default function SummarizePage() {
                     <input
                       id="file-upload"
                       type="file"
-                      accept=".txt,.pdf,.docx"
+                      accept=".pdf"
                       className="hidden"
                       onChange={handleFileChange}
                     />
@@ -196,7 +196,7 @@ export default function SummarizePage() {
                   Summarize Another Document
                 </Button>
               </div>
-              <div className="rounded-lg border bg-card p-4 prose max-w-none">
+              <div className="rounded-lg border bg-card p-4 prose max-w-screen-xl">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {summary ? cleanMarkdown(summary) : ""}
                 </ReactMarkdown>
