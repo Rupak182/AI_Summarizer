@@ -12,7 +12,7 @@ export default async function LandingPage() {
   const supabase = await createClient ()
   const { data: userData, error: userError } = await supabase.auth.getUser()
   if (userError || !userData?.user) {
-    redirect('/login')
+    redirect('/')
   }
 
   return (
