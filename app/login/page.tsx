@@ -22,7 +22,7 @@ export default function LoginPage() {
   const { toast } = useToast()
   const router = useRouter()
 
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <Card className="w-full max-w-md">
@@ -49,9 +49,9 @@ export default function LoginPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                {/* <Link href="/forgot-password" className="text-sm text-primary hover:underline">
                   Forgot password?
-                </Link>
+                </Link> */}
               </div>
               <Input
                 id="password"

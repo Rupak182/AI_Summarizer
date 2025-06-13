@@ -11,9 +11,9 @@ export default async function LandingPage() {
 
   const supabase = await createClient ()
   const { data: userData, error: userError } = await supabase.auth.getUser()
-  if (userError || !userData?.user) {
-    redirect('/')
-  }
+  // if (userError || !userData?.user) {
+  //   redirect('/')
+  // }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -24,7 +24,7 @@ export default async function LandingPage() {
           </div>
           <div className="flex items-center gap-4">
             {
-              !userData.user.id?
+              userData.user?.id===undefined ?
               <>
             <Link href="/login">
               <Button variant="ghost">Login</Button>

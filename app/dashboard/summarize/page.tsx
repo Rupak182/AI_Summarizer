@@ -79,10 +79,7 @@ export default function SummarizePage() {
     let generatedSummary = null;
 
     try {
-      // Simulate API call to summarize the file
-      await new Promise((resolve) => setTimeout(resolve, 2000))
 
-      // In a real app, you would send the file to your API
       const formData = new FormData();
       formData.append('file', file);
       const response = await fetch('/api/chat', {

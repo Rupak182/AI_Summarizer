@@ -17,37 +17,9 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const { toast } = useToast()
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-
-    try {
-      // Simulate registration
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // In a real app, you would call your auth API here
-      // const response = await signUp(email, password, name);
-
-      toast({
-        title: "Account created!",
-        description: "You have successfully registered.",
-      })
-
-      router.push("/dashboard")
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "There was a problem with your registration.",
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <Card className="w-full max-w-md">

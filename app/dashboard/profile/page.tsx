@@ -18,11 +18,11 @@ export default function ProfilePage() {
   const [darkMode, setDarkMode] = useState(false)
   const { toast } = useToast()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+   handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    try {
+    try {const
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
