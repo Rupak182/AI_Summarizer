@@ -11,10 +11,7 @@ export default async function LandingPage() {
 
   const supabase = await createClient ()
   const { data: userData, error: userError } = await supabase.auth.getUser()
-  // if (userError || !userData?.user) {
-  //   redirect('/')
-  // }
-
+  
   return (
     <div className="flex flex-col min-h-screen">
       <header className="border-b border-border">
