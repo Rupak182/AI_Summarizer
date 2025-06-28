@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { FileText, Home, LogOut, Menu, User } from "lucide-react"
 import { signOut } from "./action"
-import ReactQueryProvider from "@/components/providers/ReactQueryProvider"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
