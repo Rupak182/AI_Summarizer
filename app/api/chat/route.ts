@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     });
 
 
-const model = google('gemini-2.0-flash-001');
+const model = google('gemini-2.5-flash');
   const {text:result} = await generateText({
     model,
     messages:[
